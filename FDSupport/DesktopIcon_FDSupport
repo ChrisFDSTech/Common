@@ -49,20 +49,24 @@ catch {
     Write-Warning "Failed to download icon file from: $Icon"
 }
 
-if ($existingShortcuts) {
-    $existingShortcuts = $existingShortcuts | Where-Object { (Get-ChildItem $_.FullName).IconLocation -eq $iconPath -and $_.Name -ne $ShortcutName }
+# Check for existing shortcuts with the FDSupport.ico icon and different computer name
+$iconPath = Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico"
+$shell = New-Object -ComObject ("WScript.Shell")
+$namespace = $shell.Namespace($ShortcutPath)
 
-    foreach ($shortcut in $existingShortcuts) {
-        Write-Host "Removing existing shortcut: $($shortcut.FullName)"
-        try {
-            Remove-Item $shortcut.FullName -Force
-        }
-        catch {
-            Write-Warning "Failed to remove existing shortcut: $($shortcut.FullName)"
-            Write-Warning "Error details: $($_.Exception.Message)"
-        }
+$existingShortcuts = $namespace.Items() | Where-Object { $_.IconLocation -eq $iconPath -and $_.Name -ne $ShortcutName }
+
+foreach ($shortcut in $existingShortcuts) {
+    Write-Host "Removing existing shortcut: $($shortcut.Path)"
+    try {
+        $namespace.DeleteFile($shortcut.Path)
+    }
+    catch {
+        Write-Warning "Failed to remove existing shortcut: $($shortcut.Path)"
+        Write-Warning "Error details: $($_.Exception.Message)"
     }
 }
+
 
 
 # Create the desktop shortcut using WScript.Shell
