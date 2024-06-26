@@ -53,10 +53,10 @@ catch {
 $iconPath = Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico"
 try {
     $Shell = New-Object -ComObject ("WScript.Shell")
-    $ShortCut = $Shell.CreateShortcut("$ShortcutPath\#ComputerName.lnk"")
+    $ShortCut = $Shell.CreateShortcut("$ShortcutPath\$ComputerName.lnk")
     $ShortCut.TargetPath = $WebAddress
     $ShortCut.IconLocation = $iconPath
-    $ShortCut.Description = "Shortcut to $computerName"
+    $ShortCut.Description = "Shortcut to $ComputerName"
     $ShortCut.Save()
 }
 catch {
