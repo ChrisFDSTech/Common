@@ -49,18 +49,18 @@ catch {
     Write-Warning "Failed to download icon file from: $Icon"
 }
 
-# Check for existing shortcuts with the FDSupport.ico icon and different computer name
-$iconPath = Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico"
-$existingShortcuts = Get-ChildItem -Path $ShortcutPath -Filter "*.lnk" | Where-Object { (Get-ChildItem $_.FullName).IconLocation -eq $iconPath -and $_.Name -ne $ShortcutName }
+if ($existingShortcuts) {
+    $existingShortcuts = $existingShortcuts | Where-Object { (Get-ChildItem $_.FullName).IconLocation -eq $iconPath -and $_.Name -ne $ShortcutName }
 
-foreach ($shortcut in $existingShortcuts) {
-    Write-Host "Removing existing shortcut: $($shortcut.FullName)"
-    try {
-        Remove-Item $shortcut.FullName -Force
-    }
-    catch {
-        Write-Warning "Failed to remove existing shortcut: $($shortcut.FullName)"
-        Write-Warning "Error details: $($_.Exception.Message)"
+    foreach ($shortcut in $existingShortcuts) {
+        Write-Host "Removing existing shortcut: $($shortcut.FullName)"
+        try {
+            Remove-Item $shortcut.FullName -Force
+        }
+        catch {
+            Write-Warning "Failed to remove existing shortcut: $($shortcut.FullName)"
+            Write-Warning "Error details: $($_.Exception.Message)"
+        }
     }
 }
 
