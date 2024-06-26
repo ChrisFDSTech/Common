@@ -22,7 +22,6 @@ if (-not (Test-Path $logPath)) {
     }
     catch {
         Write-Host "Failed to create directory: $logPath"
-        Write-Host "Error details: $($_.Exception.Message)" -ForegroundColor Red
         Start-Transcript -Path (Join-Path -Path $env:ProgramData -ChildPath "$($PackageName)_$(Get-Date -Format 'MM-dd-yyyy_HH:mm:ss').txt") -Append
     }
 }
@@ -48,6 +47,18 @@ try {
 }
 catch {
     Write-Warning "Failed to download icon file from: $Icon"
+}
+
+# Check if the shortcut already exists
+$existingShortcut = Join-Path -Path $ShortcutPath -ChildPath $ShortcutName
+if (Test-Path $existingShortcut) {
+    Write-Host "Removing existing shortcut: $existingShortcut"
+    try {
+        Remove-Item $existingShortcut -Force
+    }
+    catch {
+        Write-Warning "Failed to remove existing shortcut: $existingShortcut"
+    }
 }
 
 # Create the desktop shortcut using WScript.Shell
