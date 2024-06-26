@@ -12,8 +12,7 @@ $directoryPath = Join-Path -Path $env:ProgramData -ChildPath $directoryName
 $ComputerName = $env:COMPUTERNAME
 $WebAddress = "https://rmm.fdstech.com/remotesupport/"
 $ShortcutName = "$ComputerName.lnk"
-$ShortcutPath = ([Environment]::GetFolderPath("CommonDesktopDirectory")) 
-# -ChildPath $ShortcutName
+$ShortcutPath = Join-Path -Path ([Environment]::GetFolderPath("CommonDesktopDirectory")) -ChildPath "$ShortcutName"
 
 # Start logging if any part of the process fails
 $logPath = "C:\FDSLogs"
@@ -23,7 +22,6 @@ if (-not (Test-Path $logPath)) {
     }
     catch {
         Write-Host "Failed to create directory: $logPath"
-        Write-Host "Error details: $($_.Exception.Message)" -ForegroundColor Red
         Start-Transcript -Path (Join-Path -Path $env:ProgramData -ChildPath "$($PackageName)_$(Get-Date -Format 'MM-dd-yyyy_HH:mm:ss').txt") -Append
     }
 }
@@ -55,10 +53,10 @@ catch {
 $iconPath = Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico"
 try {
     $Shell = New-Object -ComObject ("WScript.Shell")
-    $ShortCut = $Shell.CreateShortcut("$ShortcutPath\$ComputerName.lnk")
+    $ShortCut = $Shell.CreateShortcut("$ShortcutPath")
     $ShortCut.TargetPath = $WebAddress
     $ShortCut.IconLocation = $iconPath
-    $ShortCut.Description = ("Shortcut to $ComputerName")
+    $ShortCut.Description = "Shortcut to $computerName"
     $ShortCut.Save()
 }
 catch {
