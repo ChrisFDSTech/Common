@@ -6,7 +6,7 @@ $directoryName = "FDS\Icons"
 $directoryPath = Join-Path -Path $env:ProgramData -ChildPath $directoryName
 
 # Define the Shortcut Info
-$ShortcutName = "YardiOne.lnk"
+$ShortcutName = "$ComputerName.lnk"
 $ShortcutPath = Join-Path -Path ([Environment]::GetFolderPath("CommonDesktopDirectory")) -ChildPath $ShortcutName
 
 # Remove the desktop shortcut
@@ -20,7 +20,7 @@ catch {
 }
 
 # Remove the icon file
-$iconPath = Join-Path -Path $directoryPath -ChildPath "YardiOne.ico"
+$iconPath = Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico"
 try {
     Remove-Item -Path $iconPath -Force
     Write-Host "Icon file removed: $iconPath"
