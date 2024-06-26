@@ -23,6 +23,7 @@ if (-not (Test-Path $logPath)) {
     }
     catch {
         Write-Host "Failed to create directory: $logPath"
+        Write-Host "Error details: $($_.Exception.Message)" -ForegroundColor Red
         Start-Transcript -Path (Join-Path -Path $env:ProgramData -ChildPath "$($PackageName)_$(Get-Date -Format 'MM-dd-yyyy_HH:mm:ss').txt") -Append
     }
 }
