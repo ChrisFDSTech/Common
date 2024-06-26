@@ -12,7 +12,8 @@ $directoryPath = Join-Path -Path $env:ProgramData -ChildPath $directoryName
 $ComputerName = $env:COMPUTERNAME
 $WebAddress = "https://rmm.fdstech.com/remotesupport/"
 $ShortcutName = "$ComputerName.lnk"
-$ShortcutPath = ([Environment]::GetFolderPath("CommonDesktopDirectory")) #-ChildPath $ShortcutName
+$ShortcutPath = ([Environment]::GetFolderPath("CommonDesktopDirectory")) 
+# -ChildPath $ShortcutName
 
 # Start logging if any part of the process fails
 $logPath = "C:\FDSLogs"
