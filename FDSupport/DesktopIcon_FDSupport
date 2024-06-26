@@ -49,12 +49,12 @@ catch {
     Write-Warning "Failed to download icon file from: $Icon"
 }
 
-# Check for existing shortcuts with the FDSupport.ico icon and different computer name
+# Check for existing shortcuts with the FDSLogo.ico icon
 $iconPath = Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico"
 $shell = New-Object -ComObject ("WScript.Shell")
 $namespace = $shell.Namespace($ShortcutPath)
 
-$existingShortcuts = $namespace.Items() | Where-Object { $_.IconLocation -eq $iconPath -and $_.Name -ne $ShortcutName }
+$existingShortcuts = $namespace.Items() | Where-Object { $_.IconLocation -eq $iconPath }
 
 foreach ($shortcut in $existingShortcuts) {
     Write-Host "Removing existing shortcut: $($shortcut.Path)"
