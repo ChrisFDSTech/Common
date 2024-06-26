@@ -9,8 +9,9 @@ $directoryName = "FDS\Icons"
 $directoryPath = Join-Path -Path $env:ProgramData -ChildPath $directoryName
 
 # Define the Shortcut Info
-$WebAddress = "https://www.yardiasp13.com/80032dth"
-$ShortcutName = "YardiOne.lnk"
+$ComputerName = $env:COMPUTERNAME
+$WebAddress = "https://rmm.fdstech.com/remotesupport/"
+$ShortcutName = "$ComputerName.lnk"
 $ShortcutPath = Join-Path -Path ([Environment]::GetFolderPath("CommonDesktopDirectory")) -ChildPath $ShortcutName
 
 # Start logging if any part of the process fails
@@ -42,20 +43,20 @@ if (-not (Test-Path $directoryPath)) {
 # Download the ico file from GitHub to the FDS Directory
 Write-Host "Downloading icon file from: $Icon"
 try {
-    Invoke-WebRequest -Uri $Icon -OutFile (Join-Path -Path $directoryPath -ChildPath "YardiOne.ico")
+    Invoke-WebRequest -Uri $Icon -OutFile (Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico")
 }
 catch {
     Write-Warning "Failed to download icon file from: $Icon"
 }
 
 # Create the desktop shortcut using WScript.Shell
-$iconPath = Join-Path -Path $directoryPath -ChildPath "YardiOne.ico"
+$iconPath = Join-Path -Path $directoryPath -ChildPath "FDSLogo.ico"
 try {
-    $Shell = New-Object -ComObject ("WScript.Shell")
+    $Shell = New-Object -ComObject ("$ShortcutPath\$ComputerName.lnk")
     $ShortCut = $Shell.CreateShortcut($ShortcutPath)
     $ShortCut.TargetPath = $WebAddress
     $ShortCut.IconLocation = $iconPath
-    $ShortCut.Description = "YardiOne"
+    $ShortCut.Description = "Shortcut to $computerName"
     $ShortCut.Save()
 }
 catch {
