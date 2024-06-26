@@ -56,7 +56,7 @@ try {
     $ShortCut = $Shell.CreateShortcut("$ShortcutPath\$ComputerName.lnk")
     $ShortCut.TargetPath = $WebAddress
     $ShortCut.IconLocation = $iconPath
-    $ShortCut.Description = "Shortcut to $ComputerName"
+    $ShortCut.Description = ("Shortcut to $ComputerName")
     $ShortCut.Save()
 }
 catch {
