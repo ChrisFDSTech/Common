@@ -1,6 +1,6 @@
 
 
-$ScriptFromGitHub = Invoke-WebRequest https://raw.githubusercontent.com/ChrisFDSTech/Common/main/FDSupport/DesktopIcon_FDSupport -UseBasicParsing
+$ScriptFromGitHub = Invoke-WebRequest https://raw.githubusercontent.com/ChrisFDSTech/Common/main/FDSupport/DesktopIcon_FDSupport.ps1 -UseBasicParsing
 
 if ($ScriptFromGitHub.StatusCode -eq 200) {
     # Successfully retrieved script content
