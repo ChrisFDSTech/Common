@@ -1,6 +1,6 @@
 $PackageName = "DesktopIcon_FDSupport"
 $Version = "1"
-#
+
 # Define the GitHub URLs for the files
 $Icon = "https://raw.githubusercontent.com/ChrisFDSTech/Common/main/FDSupport/FDSLogo.ico"
 
